@@ -1,13 +1,16 @@
 module.exports = function(app, databaseService){
     app.get('/', (request, response) => {
         response.json({
-            "mensaje": "Todo bien"
+            "mensaje": "Salio bien :D"
         });
     });
 
     app.get('/usuarios', (request, response) => {
-        response.json({
-            "mensaje": "Mis usuarios"
+        databaseService.verUsuarios()
+        .then((result) => {
+            response.json(result);
+        }).catch((err) => {
+            response.status(500).json(err);
         });
     });
 

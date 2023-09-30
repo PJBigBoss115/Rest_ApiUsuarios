@@ -10,10 +10,14 @@ const databaseService = () => {
         }
     });
 
-    const table_01 = 'usuarios'; 
+    const myUser = 'usuarios'; 
+
+    const verUsuarios = () => {
+        return knex(myUser).select();
+    };
 
     const crearUsuario = ({nombre, apellido, correo, clave, tipo_Usuario}) => {
-        return knex(table_01).insert({
+        return knex(myUser).insert({
             nombre: nombre,
             apellido: apellido,
             correo: correo,
@@ -23,7 +27,8 @@ const databaseService = () => {
     };
 
     return{
-        crearUsuario
+        crearUsuario,
+        verUsuarios
     };
 };
 
