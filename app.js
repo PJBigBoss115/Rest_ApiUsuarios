@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const {databaseService} = require('./services/databaseService');
+const {db_ventasService} = require('./services/db_ventasService');
 const cors = require('cors');
 
 const app = express();
@@ -15,7 +16,7 @@ app.use(cors({
     credentials: true,
 }));
 
-require('./routes')(app, databaseService());
+require('./routes')(app, databaseService(), db_ventasService());
 
 app.listen(3000, function() {
     console.log('Servidor en ejecución en el puerto 3000');
