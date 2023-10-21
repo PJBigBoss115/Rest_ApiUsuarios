@@ -26,9 +26,35 @@ const databaseService = () => {
         });
     };
 
+    const modificarUsuario = (id, nuevosDatos) => {
+        return knex(myUser)
+        .where('id', id) // Especifica el ID del artículo que deseas modificar
+        .update(nuevosDatos) // Define los nuevos datos a actualizar
+        .then((filasModificadas) => {
+            console.log(`Se actualizaron ${filasModificadas} registros`);
+        })
+        .catch((error) => {
+            console.error('Error al modificar el registro:', error);
+        });
+    };
+
+    const eliminarUsuario = (nombre) => {
+        return knex(myUser)
+            .where('nombre', nombre)
+            .del()
+            .then((filasEliminadas) => {
+                console.log(`Se eliminaron ${filasEliminadas} registros de la tabla de usuarios`);
+            })
+            .catch((error) => {
+                console.error('Error al eliminar el registro de la tabla de usuarios:', error);
+            });
+    };
+
     return{
         crearUsuario,
-        verUsuarios
+        verUsuarios,
+        modificarUsuario,
+        eliminarUsuario
     };
 };
 

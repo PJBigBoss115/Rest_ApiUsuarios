@@ -11,38 +11,56 @@ const db_ventasService = () => {
 
     const articulos = 'dbo.Articulo';
 
-    const verArticulos = () => {
-        return knex(articulos).select();
-    };
-
-    const modificarArticulo = (id, nuevosDatos) => {
-        return knex(articulos)
-        .where('id', id) // Especifica el ID del artículo que deseas modificar
-        .update(nuevosDatos) // Define los nuevos datos a actualizar
-        .then((filasModificadas) => {
-            console.log(`Se actualizaron ${filasModificadas} registros`);
+    const verRegistros = (tabla) => {
+        return knex(tabla).select()
+        .then((result) => {
+            return result; // Devuelve los registros de la tabla
         })
         .catch((error) => {
-            console.error('Error al modificar el registro:', error);
+            throw error; // Lanza el error en caso de fallo
         });
     };
 
-    const eliminarArticulo = (nombre) => {
-        return knex(articulos)
-        .where('nombre', nombre) // Especifica el nombre del artículo que deseas eliminar
-        .del()
-        .then((filasEliminadas) => {
-            console.log(`Se eliminaron ${filasEliminadas} registros`);
-        })
-        .catch((error) => {
-            console.error('Error al eliminar el registro:', error);
-        });
+    const crearRegistro = (tabla, nuevosDatos) => {
+        return knex(tabla)
+            .insert(nuevosDatos)
+            .then((ids) => {
+                console.log(`Se creó el registro en la tabla ${tabla} con ID: ${ids[0]}`);
+            })
+            .catch((error) => {
+                console.error(`Error al crear el registro en la tabla ${tabla}:`, error);
+            });
+    };
+    
+    const modificarRegistro = (tabla, id, nuevosDatos) => {
+        return knex(tabla)
+            .where('Id_'+tabla, id)
+            .update(nuevosDatos)
+            .then((filasModificadas) => {
+                console.log(`Se actualizaron ${filasModificadas} registros en la tabla ${tabla}`);
+            })
+            .catch((error) => {
+                console.error(`Error al modificar el registro en la tabla ${tabla}:`, error);
+            });
+    };
+    
+    const eliminarRegistro = (tabla, id) => {
+        return knex(tabla)
+            .where('id', id)
+            .del()
+            .then((filasEliminadas) => {
+                console.log(`Se eliminaron ${filasEliminadas} registros de la tabla ${tabla}`);
+            })
+            .catch((error) => {
+                console.error(`Error al eliminar el registro de la tabla ${tabla}:`, error);
+            });
     };
 
     return{
-        verArticulos,
-        modificarArticulo,
-        eliminarArticulo
+        verRegistros,
+        crearRegistro,
+        modificarRegistro,
+        eliminarRegistro
     };
 };
 
