@@ -46,7 +46,7 @@ const db_ventasService = () => {
     
     const eliminarRegistro = (tabla, id) => {
         return knex(tabla)
-            .where('id', id)
+            .where('Id_'+tabla, id)
             .del()
             .then((filasEliminadas) => {
                 console.log(`Se eliminaron ${filasEliminadas} registros de la tabla ${tabla}`);
