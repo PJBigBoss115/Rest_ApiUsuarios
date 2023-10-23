@@ -119,4 +119,16 @@ module.exports = function(app, databaseService, db_ventasService) {
             });
     });
 
+    //Algunos reportes ------------------------->
+    app.get('/generarInformeProveedores', (request, response) => {
+        db_ventasService.generarInformeProveedores()
+        .then((informe) => {
+            // Respondemos con los datos del informe
+            response.json(informe);
+        })
+        .catch((error) => {
+            response.status(500).json(error);
+        });
+    });
+
 };

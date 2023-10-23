@@ -56,11 +56,27 @@ const db_ventasService = () => {
             });
     };
 
+    const generarInformeProveedores = () => {
+        return knex('Prov_Art')
+        .select('Articulo.Nombre as NombreArticulo', 'Articulo.Descripcion', 'Proveedores.Nombre as NombreProveedor', 'Proveedores.Telefono', 'Prov_Art.Precio')
+        .innerJoin('Articulo', 'Prov_Art.Id_Art', 'Articulo.Id_Articulo')
+        .innerJoin('Proveedores', 'Prov_Art.Id_Prov', 'Proveedores.Id_Proveedor')
+        .then((result) => {
+            // Genera el informe con los datos obtenidos (result) según tus necesidades
+            // Puedes utilizar bibliotecas de generación de informes o simplemente devolver los datos como JSON
+            return result; // Devolvemos los datos
+        })
+        .catch((error) => {
+            throw error;
+        });
+    };
+
     return{
         verRegistros,
         crearRegistro,
         modificarRegistro,
-        eliminarRegistro
+        eliminarRegistro,
+        generarInformeProveedores
     };
 };
 
