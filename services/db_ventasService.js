@@ -115,7 +115,10 @@ const db_ventasService = () => {
         crearRegistro,
         modificarRegistro,
         eliminarRegistro,
-        generarInformeProveedores
+        generarInformeProveedores,
+        buscarRegistro,
+        modificarProveedor,
+        eliminarProveedor
     };
 };
 
