@@ -146,6 +146,19 @@ module.exports = function(app, databaseService, db_ventasService) {
             });
     });
 
+    app.post('/buscarRegistro/:tabla', (request, response) => {
+        const { tabla } = request.params;
+        const condicion = request.body;
+
+        db_ventasService.buscarRegistro(tabla, condicion)
+        .then((resultados) => {
+            response.json(resultados);
+        })
+        .catch((err) => {
+            response.status(500).json(err);
+        });
+    });      
+
     // Ruta para eliminar un registro en una tabla
     app.delete('/eliminarProveedor/:tabla/:nombre', (request, response) => {
         const { tabla, nombre } = request.params;

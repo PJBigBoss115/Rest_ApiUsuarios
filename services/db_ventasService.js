@@ -56,6 +56,20 @@ const db_ventasService = () => {
             });
     };
 
+    const buscarRegistro = (tabla, condicion) => {
+        return knex(tabla)
+            .where(condicion)
+            .select()
+            .then((resultados) => {
+                console.log(`Se encontraron ${resultados.length} registros en la tabla ${tabla}`);
+                return resultados.length > 0; // Devolver true si se encontraron resultados, false si no
+            })
+            .catch((error) => {
+                console.error(`Error al buscar registros en la tabla ${tabla}:`, error);
+                throw error;
+            });
+    };      
+
     const modificarProveedor = (tabla, id, nuevosDatos) => {
         return knex(tabla)
             .where('Id_Proveedor', id)
