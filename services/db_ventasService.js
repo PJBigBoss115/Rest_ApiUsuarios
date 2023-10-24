@@ -56,6 +56,31 @@ const db_ventasService = () => {
             });
     };
 
+    const modificarProveedor = (tabla, id, nuevosDatos) => {
+        return knex(tabla)
+            .where('Id_Proveedor', id)
+            .update(nuevosDatos)
+            .then((filasModificadas) => {
+                console.log(`Se actualizaron ${filasModificadas} registros en la tabla ${tabla}`);
+            })
+            .catch((error) => {
+                console.error(`Error al modificar el registro en la tabla ${tabla}:`, error);
+            });
+    };
+    
+    const eliminarProveedor = (tabla, id) => {
+        return knex(tabla)
+            .where('Id_Proveedor', id)
+            .del()
+            .then((filasEliminadas) => {
+                console.log(`Se eliminaron ${filasEliminadas} registros de la tabla ${tabla}`);
+            })
+            .catch((error) => {
+                console.error(`Error al eliminar el registro de la tabla ${tabla}:`, error);
+            });
+    };
+
+
     const generarInformeProveedores = () => {
         return knex('Prov_Art')
         .select('Articulo.Nombre as NombreArticulo', 'Articulo.Descripcion', 'Proveedores.Nombre as NombreProveedor', 'Proveedores.Telefono', 'Prov_Art.Precio')

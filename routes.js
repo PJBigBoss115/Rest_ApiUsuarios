@@ -119,7 +119,7 @@ module.exports = function(app, databaseService, db_ventasService) {
             });
     });
 
-    //Algunos reportes ------------------------->
+    //Algunos reportes y especificos ------------------------->
     app.get('/generarInformeProveedores', (request, response) => {
         db_ventasService.generarInformeProveedores()
         .then((informe) => {
@@ -129,6 +129,35 @@ module.exports = function(app, databaseService, db_ventasService) {
         .catch((error) => {
             response.status(500).json(error);
         });
+    });
+
+    // Ruta para modificar un registro en una tabla
+    app.put('/modificarProveedor/:tabla/:id', (request, response) => {
+        const { tabla, id } = request.params;
+        const nuevosDatos = request.body;
+        db_ventasService.modificarProveedor(tabla, id, nuevosDatos)
+            .then((result) => {
+                response.json({
+                    "mensaje": `Registro en la tabla ${tabla} con ID ${id} modificado`
+                });
+            })
+            .catch((err) => {
+                response.status(500).json(err);
+            });
+    });
+
+    // Ruta para eliminar un registro en una tabla
+    app.delete('/eliminarProveedor/:tabla/:nombre', (request, response) => {
+        const { tabla, nombre } = request.params;
+        db_ventasService.eliminarProveedor(tabla, nombre)
+            .then((result) => {
+                response.json({
+                    "mensaje": `Registro en la tabla ${tabla} con nombre ${nombre} eliminado`
+                });
+            })
+            .catch((err) => {
+                response.status(500).json(err);
+            });
     });
 
 };
