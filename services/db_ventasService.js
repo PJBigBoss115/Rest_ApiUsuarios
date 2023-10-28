@@ -101,14 +101,34 @@ const db_ventasService = () => {
         .innerJoin('Articulo', 'Prov_Art.Id_Art', 'Articulo.Id_Articulo')
         .innerJoin('Proveedores', 'Prov_Art.Id_Prov', 'Proveedores.Id_Proveedor')
         .then((result) => {
-            // Genera el informe con los datos obtenidos (result) según tus necesidades
-            // Puedes utilizar bibliotecas de generación de informes o simplemente devolver los datos como JSON
             return result; // Devolvemos los datos
         })
         .catch((error) => {
             throw error;
         });
     };
+
+    const generarInformeDeptosSucursal = () => {
+        return knex('Depto_Sucursal')
+            .select(
+                'Depto_Sucursal.NombreD',
+                'Depto_Sucursal.No_Trabajadores',
+                'Departamento.Nombre as NombreDepartamento',
+                'Sucursal.Direccion',
+                'Sucursal.Nombre_Ciudad',
+                'Sucursal.Nombre_Depto',
+                'Telefonos.No_Celular'
+            )
+            .innerJoin('Departamento', 'Depto_Sucursal.Id_Central', 'Departamento.Id_Depto')
+            .innerJoin('Sucursal', 'Depto_Sucursal.Id_Sucursal', 'Sucursal.Id_Sucursal')
+            .leftJoin('Telefonos', 'Depto_Sucursal.Id_Sucursal', 'Telefonos.Sucursal_id')
+            .then((result) => {
+                return result; // Devolvemos los datos
+            })
+            .catch((error) => {
+                throw error;
+            });
+    };      
 
     return{
         verRegistros,
@@ -118,7 +138,8 @@ const db_ventasService = () => {
         generarInformeProveedores,
         buscarRegistro,
         modificarProveedor,
-        eliminarProveedor
+        eliminarProveedor,
+        generarInformeDeptosSucursal
     };
 };
 

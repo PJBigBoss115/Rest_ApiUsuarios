@@ -131,6 +131,17 @@ module.exports = function(app, databaseService, db_ventasService) {
         });
     });
 
+    app.get('/generarInformeDeptoSucursal', (request, response) => {
+        db_ventasService.generarInformeDeptosSucursal()
+        .then((informe) => {
+            // Respondemos con los datos del informe
+            response.json(informe);
+        })
+        .catch((error) => {
+            response.status(500).json(error);
+        });
+    });      
+
     // Ruta para modificar un registro en una tabla
     app.put('/modificarProveedor/:tabla/:id', (request, response) => {
         const { tabla, id } = request.params;
